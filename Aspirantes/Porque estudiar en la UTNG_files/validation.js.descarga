@@ -1,0 +1,222 @@
+
+function clearErrorMessages(form) {
+
+	var elements = form.elements;
+	for (var i = 0; i < elements.length; i++) {
+		var el = elements[i];
+
+		var divl = document.getElementById("lbl" + el.id);
+		if (divl != null) {
+			divl.classList.remove('text-danger');
+		}
+
+		var div = document.getElementById("feedback" + el.id);
+
+		el.classList.remove('is-invalid');
+		el.classList.remove('is-valid');
+	}
+}
+
+function clearAllErrorMessages(form) {
+
+	var elements = form.elements;
+	for (var i = 0; i < elements.length; i++) {
+		var el = elements[i];
+		var div = document.getElementById("feedback" + el.id);
+
+		el.classList.remove('is-invalid');
+		el.classList.remove('is-valid');
+	}
+}
+
+function clearErrorLabels(form) {
+
+}
+
+function addError(e, errorText) {
+	addErrorXHTML(e, errorText);
+}
+
+function addErrorXHTML(e, errorText) {
+	try {
+
+		var divl = document.getElementById("lbl" + e.id);
+		if (divl != null) {
+			divl.classList.add('text-danger');
+		}
+
+		var div = document.getElementById("feedback" + e.id);
+		e.classList.remove('is-valid');
+		e.classList.add('is-invalid');
+		if (div != null) {
+			div.innerHTML = errorText;
+			div.classList.add('invalid-feedback');
+		}
+	} catch (e) {
+		alert(e);
+	}
+}
+
+function closeErrorMessage() {
+	eliminarEl();
+}
+
+function eliminarEl() {
+	var msj = document.getElementById("modaErrorlMensaje");
+	if (msj != null) {
+		var lis = msj.getElementsByTagName("li");
+		if (lis.length > 0) {
+			for (var i = 0; i < lis.length; i++) {
+				msj.removeChild(lis[i]);
+			}
+			eliminarEl();
+		}
+	}
+}
+
+function showErrorMessage() {
+	// dwr.util.setValue("modalErrortitulo", "Errores de Formulario");
+	// $("#modalError").modal('show');
+}
+
+
+/*
+ * VALIDACIONES
+ */
+
+function validarNumeros(e) {
+	tecla = (document.all) ? e.keyCode : e.which; // 2
+	if (tecla == 8)
+		return true;
+	if (tecla == 0)
+		return true;
+	if (tecla == 127)
+		return true;
+	patron = /^([0-9])*$/;
+	te = String.fromCharCode(tecla); // 5
+	return patron.test(te); // 6
+}
+
+function quitarCaracteresGeneral(campo, opcion, acento, caracteres) {
+	var cadena = campo.value;
+	var returnString = "";
+	var numeros = "0123456789";
+	var acentos = "";
+	if (acento == "1") {
+		acentos += "áéíóúÁÉÍÓÚ";
+	}
+	var letras = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ "
+			+ acentos + caracteres;
+	var sNumLetras = "";
+	if (opcion == "1") {
+		sNumLetras += numeros;
+	} else if (opcion == "2") {
+		sNumLetras += letras;
+	} else if (opcion == "3") {
+		sNumLetras += numeros + letras;
+	} else if (opcion == "4") {
+		sNumLetras += numeros + caracteres;
+	}
+	for (var i = 0; i < cadena.length; i++) {
+		var caracter = cadena.charAt(i);
+		var bandera = false;
+		for (var j = 0; j < sNumLetras.length; j++) {
+			var c = sNumLetras.charAt(j);
+			if (caracter == c) {
+				bandera = true;
+			}
+		}
+		if (bandera) {
+			returnString += caracter;
+		}
+	}
+	dwr.util.setValue(campo, returnString);
+	allTrim(campo);
+}
+
+function leftTrim(campo) {
+	sStr = campo.value;
+	while (sStr.charAt(0) == " ") {
+		sStr = sStr.substr(1, sStr.length - 1);
+	}
+	campo.value = sStr;
+	return campo;
+}
+
+function rigthTrim(campo) {
+	sStr = campo.value;
+	while (sStr.charAt(sStr.length - 1) == " ") {
+		sStr = sStr.substr(0, sStr.length - 1);
+	}
+	campo.value = sStr;
+	return campo;
+}
+
+function allTrim(campo) {
+	var campos = rigthTrim(leftTrim(campo));
+	var cadena = campos.value;
+	return cadena;
+}
+
+function soloLetrasyNumeros(e) {
+	tecla = (document.all) ? e.keyCode : e.which; // 2
+
+	if (tecla == 0) {
+		return true;
+	}
+
+	if (tecla == 8) {
+		return true;
+	}
+	patron = /[0-9A-ZAa-z áéíóúÁÉÍÓÚÑñ]/; // 4
+	te = String.fromCharCode(tecla); // 5
+	return patron.test(te); // 6
+}
+
+function soloLetras(e) {
+	tecla = (document.all) ? e.keyCode : e.which; // 2
+
+	if (tecla == 0) {
+		return true;
+	}
+
+	if (tecla == 8) {
+		return true;
+	}
+	patron = /[A-ZAa-z áéíóúÁÉÍÓÚÑñ]/; // 4
+	te = String.fromCharCode(tecla); // 5
+	return patron.test(te); // 6
+}
+
+function soloNumeroDecimal(e) {
+	tecla = (document.all) ? e.keyCode : e.which; // 2
+
+	if (tecla == 0) {
+		return true;
+	}
+
+	if (tecla == 8) {
+		return true;
+	}
+	if (tecla == 46) {
+		return true;
+	}
+	patron = /[0-9.]/; // 4
+	te = String.fromCharCode(tecla); // 5
+	return patron.test(te); // 6
+}
+
+function soloNumero(e) {
+	tecla = (document.all) ? e.keyCode : e.which; // 2
+
+	if (tecla == 0) {
+		return true;
+	}
+
+	if (tecla == 8) {
+		return true;
+	}
+	patron = /[0-9]/; // 4
+	te = String.fromCharCode(tecla); // 5
+	return patron.test(te); // 6
+}
