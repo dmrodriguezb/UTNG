@@ -1,0 +1,79 @@
+/*******************************************************************************
+ * Nombre del Proyecto: SIGA(Sistema Integral de Gestión Administrativa)<BR>
+ * 
+ * Objetivo: //TODO Describir <BR>
+ * 
+ * @author : Javier Medina Montalvo <BR>
+ *         e-mail : raijev@yahoo.com <BR>
+ *         Fecha de Creación: 08/09/2011<BR>
+ *         Fecha de Ultima Modificacion: 08/09/2011<BR>
+ *         Version: 1.0 Copyright 2011. Centro Avanzado de Desarrollo de
+ *         Software (CADES).
+ ******************************************************************************/
+function clearErrorMessages(form) {
+	var elements = form.elements;
+	for (var i = 0; i < elements.length; i++) {
+		var el = elements[i];
+		var div = document.getElementById("lbl" + el.id);
+		if (div != null) {
+			div.className = "control-label";
+		}
+		if ((el.type == "text") || (el.type == "select-one")
+				|| (el.type == "textarea") || (el.type == "password")
+				|| (el.type == "select-multiple")) {
+			el.className = "form-control input-sm";
+		}
+	}
+	dwr.util.setValue("modalErrortitulo", "Errores de Formulario");
+	dwr.util.setValue("modaErrorlMensaje", "");
+}
+
+function clearErrorLabels(form) {
+
+}
+
+function addError(e, errorText) {
+	addErrorXHTML(e, errorText);
+}
+
+function addErrorXHTML(e, errorText) {
+	try {
+		var div = document.getElementById("lbl" + e.id);
+		if (div != null) {
+			var msj = document.getElementById("modaErrorlMensaje");
+
+			var li = document.createElement("li");
+			li.innerHTML = "<b>" + div.innerHTML + ": </b>" + errorText
+					+ "<br/>";
+			li.style.display = "inline";
+			msj.appendChild(li);
+
+			e.className = "form-control input-sm errorCampo";
+			div.className = "control-label errorLabel";
+		}
+	} catch (e) {
+		alert(e);
+	}
+}
+
+function closeErrorMessage() {
+	eliminarEl();
+}
+
+function eliminarEl() {
+	var msj = document.getElementById("modaErrorlMensaje");
+	if (msj != null) {
+		var lis = msj.getElementsByTagName("li");
+		if (lis.length > 0) {
+			for (var i = 0; i < lis.length; i++) {
+				msj.removeChild(lis[i]);
+			}
+			eliminarEl();
+		}
+	}
+}
+
+function showErrorMessage() {
+	dwr.util.setValue("modalErrortitulo", "Errores de Formulario");
+	$("#modalError").modal('show');
+}

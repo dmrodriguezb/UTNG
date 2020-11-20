@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<!-- saved from url=(0060)https://siga.utng.edu.mx/sq/registroQuejasSugerencias.action -->
+<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="siga">
+<meta name="author" content="SIGA">
+
+<title>SIGA</title>
+
+<link href="./bootstrap.min(1).css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+<script src="./jquery-1.11.0.js.descarga"></script>
+<script src="./bootstrap.min.js(1).descarga"></script>
+<script src="./engine.js.descarga"></script>
+<script src="./util.js.descarga"></script>
+<script src="./utils.js.descarga"></script>
+
+<style type="text/css">
+body {
+
+/* 	background: -webkit-linear-gradient(#293134, #009DE1); */
+/* 	background: -moz-linear-gradient(#293134, #009DE1); */
+/* 	background: -o-linear-gradient(#293134, #009DE1); */
+/* 	background: linear-gradient(#293134, #009DE1); */
+/* 	background-size : cover; */
+}
+
+.errorLabel {
+	color: #a94442;
+}
+
+.errorCampo {
+	border-color: #a94442;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+}
+
+.errorCampo:focus {
+	border-color: #843534;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
+}
+</style>
+</head>
+
+
+<body class="">
+	<br>
+	<div class="container">
+		<div class="panel panel-info">
+			<div class="panel-heading">REGISTRO DE PREGUNTAS, QUEJAS Y SUGERENCIAS</div>
+			<div class="panel-body">
+						
+        
+<form  method="post" class="form-horizontal" >
+
+
+					<div class="form-group">
+						<div class="col-sm-12">
+							   
+<label id="lblfecha" class="control-label" ><center>
+	Objetivo: proporcionar a los alumnos, personal, empresarios, padre de familia, visitantes y aspirantes un medio para la atención eficaz y satisfactoria de problemáticas o situaciones relacionadas con el quehacer institucional y los servicios que ofrece la institución.</label>
+</center></div>
+
+					</div>
+					<div class="form-group">
+						<div class="col-sm-2">
+							   
+<label id="lblfecha" class="control-label">Fecha</label>
+						</div>
+						<div class="col-sm-10">
+							<font style="font-weight: bold;"> <script>MostrarFecha()</script>Jueves, 19 de Noviembre de 2020 </font>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-2">
+							   
+<label id="lblnombreCompleto" class="control-label">Nombre Completo</label>
+						</div>
+						<div class="col-sm-10">
+							   
+<input type="text" name="nombreCompleto" maxlength="50" value="" id="nombreCompleto" class="form-control input-sm" >
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-2">
+							   
+<label id="lblcbocveTipoPersona" class="control-label">Tipo de persona</label>
+						</div>
+						<div class="col-sm-10">
+							   
+<select name="cveTipoPersona" id="cbocveTipoPersona" class="form-control input-sm" onchange="mostrarFila()">
+    
+
+
+<option value="0">Seleccionar</option><option value="2">Profesor</option><option value="4">Alumno</option><option value="7">Aspirante TSU</option><option value="10">Administrativo</option><option value="13">Aspirante 5A</option><option value="14">Personal Externo</option><option value="15">Personal por Proyecto</option><option value="16">Mantenimiento e Intendencia</option></select>
+
+
+						</div>
+					</div>
+					<!-- Alumno -->
+					<div class="form-group" id="trAlumno" style="display: none;">
+						<div class="col-sm-2">
+							   
+<label id="lblnumControl" class="control-label">Numero de Control</label>
+						</div>
+						<div class="col-sm-10">
+							   
+<input type="text" name="numControl" maxlength="15" value="" id="numControl" class="form-control input-sm">
+						</div>
+					</div>
+					<!-- Empleado -->
+					<div class="form-group" id="trEmpleado" style="display: none;">
+						<div class="col-sm-2">
+							   
+<label id="lblnumEmpleado" class="control-label">Numero de Empleado</label>
+						</div>
+						<div class="col-sm-10">
+							   
+<input type="text" name="numEmpleado" maxlength="15" value="" id="numEmpleado" class="form-control input-sm" >
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-2">
+							   
+<label id="lbltelefono" class="control-label">Telefono</label>
+						</div>
+						<div class="col-sm-10">
+							
+							   
+<input type="text" name="telefono" maxlength="20" value="" id="telefono" class="form-control input-sm" >
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-2">
+							   
+<label id="lblemail" class="control-label">Correo Electrónico</label>
+						</div>
+						<div class="col-sm-10">
+							
+							   
+<input type="text" name="email" maxlength="150" value="" id="email" class="form-control input-sm">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-2">
+							   
+<label id="lblsituacion" class="control-label">Situación</label>
+</div>
+<div class="col-sm-10">
+	   
+<input type="text" name="situacion" maxlength="150" value="" id="situacion" class="form-control input-sm" >
+</div>
+</div>
+				
+
+					<div class="form-group">
+						<div class="col-sm-12">
+							   
+<label id="lblfecha" class="control-label">Los datos personales que se manejan, serán de uso exclusivo de la institución, en cumplimiento al Art. 6 de la ley de protección de datos personales.</label>
+						</div>
+
+					</div>
+					<div class="form-group">
+						<div class="col-sm-12">
+							<input type="submit" value="Guardar"  class="btn btn-primary">
+
+							<input type="button" class="btn btn-warning" value="Cancelar" >
+						</div>
+					</div>
+
+				</form>
+
+
+
+			</div>
+		</div>
+	</div>
+	
+
+	
+	
+</body></html>

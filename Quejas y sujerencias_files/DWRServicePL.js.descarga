@@ -1,0 +1,49 @@
+if (typeof dwr == 'undefined' || dwr.engine == undefined) throw new Error('You must include DWR engine before including this file');
+
+(function() {
+  if (dwr.engine._getObject("DWRServicePL") == undefined) {
+    var p;
+    
+    p = {};
+    p._path = '/dwr';
+
+    /**
+     * @param {function|Object} callback callback function or options object
+     */
+    p.cargarAreas = function(callback) {
+      return dwr.engine._execute(p._path, 'DWRServicePL', 'cargarAreas', arguments);
+    };
+
+    /**
+     * @param {function|Object} callback callback function or options object
+     */
+    p.llenarPeriodo = function(callback) {
+      return dwr.engine._execute(p._path, 'DWRServicePL', 'llenarPeriodo', arguments);
+    };
+
+    /**
+     * @param {function|Object} callback callback function or options object
+     */
+    p.cargarTiposPersonas = function(callback) {
+      return dwr.engine._execute(p._path, 'DWRServicePL', 'cargarTiposPersonas', arguments);
+    };
+
+    /**
+     * @param {function|Object} callback callback function or options object
+     */
+    p.cargarTiposSituacion = function(callback) {
+      return dwr.engine._execute(p._path, 'DWRServicePL', 'cargarTiposSituacion', arguments);
+    };
+
+    /**
+     * @param {class mx.edu.utng.siga.action.sq.RegistroQuejasSugerencias} p0 a param
+     * @param {function|Object} callback callback function or options object
+     */
+    p.saveQuejaSugerencia = function(p0, callback) {
+      return dwr.engine._execute(p._path, 'DWRServicePL', 'saveQuejaSugerencia', arguments);
+    };
+    
+    dwr.engine._setObject("DWRServicePL", p);
+  }
+})();
+

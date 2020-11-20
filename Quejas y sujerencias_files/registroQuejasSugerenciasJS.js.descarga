@@ -1,0 +1,350 @@
+/*******************************************************************************
+ * Nombre del Proyecto: SIGA(Sistema Integral de Gestión Administrativa)<BR>
+ * 
+ * Objetivo: //TODO Describir <BR>
+ * 
+ * @author : Javier Medina Montalvo <BR>
+ *         e-mail : raijev@yahoo.com <BR>
+ *         Fecha de Creación: 26/06/2013<BR>
+ *         Fecha de Ultima Modificacion: 26/06/2013<BR>
+ *         Version: 1.0 Copyright 2011. Centro Avanzado de Desarrollo de
+ *         Software (CADES).
+ ******************************************************************************/
+window.onload = function() {
+	ocultarFilas(1, "trAlumno");
+	ocultarFilas(1, "trEmpleado");
+	showLightbox();
+	window.setTimeout("cargarCombos()", 400);
+};
+
+function MostrarFecha() {
+	var nombres_dias = new Array("Domingo", "Lunes", "Martes", "Miércoles",
+			"Jueves", "Viernes", "Sábado")
+	var nombres_meses = new Array("Enero", "Febrero", "Marzo", "Abril", "Mayo",
+			"Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre",
+			"Diciembre");
+
+	var fecha_actual = new Date();
+
+	dia_mes = fecha_actual.getDate(); // dia del mes
+	dia_semana = fecha_actual.getDay(); // dia de la semana
+	mes = fecha_actual.getMonth() + 1;
+	anio = fecha_actual.getFullYear();
+
+	// escribe en pagina
+	document.write(nombres_dias[dia_semana] + ", " + dia_mes + " de "
+			+ nombres_meses[mes - 1] + " de " + anio);
+}
+
+function cargarCombos() {
+	cargarTiposPersonas();
+	cargarTiposSituacion();
+	cargarAreas();
+}
+
+/*******************************************************************************
+ * Nombre : cargarTiposPersonas
+ * 
+ * Objetivo: //TODO <BR>
+ * 
+ * @param
+ * @returns void
+ ******************************************************************************/
+function cargarTiposPersonas() {
+	DWRServicePL.cargarTiposPersonas(mostrarTiposPersonas);
+}
+
+/*******************************************************************************
+ * Nombre : mostrarTiposPersonas
+ * 
+ * Objetivo: //TODO <BR>
+ * 
+ * @param
+ * @param map
+ * @returns void
+ ******************************************************************************/
+function mostrarTiposPersonas(map) {
+	dwr.util.removeAllOptions("cbocveTipoPersona");
+	dwr.util.addOptions("cbocveTipoPersona", map);
+}
+
+/*******************************************************************************
+ * Nombre : cargarTiposSituacion
+ * 
+ * Objetivo: //TODO <BR>
+ * 
+ * @param
+ * @returns void
+ ******************************************************************************/
+function cargarTiposSituacion() {
+	DWRServicePL.cargarTiposSituacion(mostratTiposSituacion);
+}
+
+/*******************************************************************************
+ * Nombre : mostratTiposSituacion
+ * 
+ * Objetivo: //TODO <BR>
+ * 
+ * @param
+ * @param map
+ * @returns void
+ ******************************************************************************/
+function mostratTiposSituacion(map) {
+	dwr.util.removeAllOptions("cbocveTipoSituacion");
+	dwr.util.addOptions("cbocveTipoSituacion", map);
+}
+
+/*******************************************************************************
+ * Nombre : cargarAreas
+ * 
+ * Objetivo: //TODO <BR>
+ * 
+ * @param
+ * @returns void
+ ******************************************************************************/
+function cargarAreas() {
+	DWRServicePL.cargarAreas(mostrarAreas);
+}
+
+/*******************************************************************************
+ * Nombre : mostrarAreas
+ * 
+ * Objetivo: //TODO <BR>
+ * 
+ * @param
+ * @param map
+ * @returns void
+ ******************************************************************************/
+function mostrarAreas(map) {
+	dwr.util.removeAllOptions("cbocveOrganigrama");
+	dwr.util.addOptions("cbocveOrganigrama", map);
+	hideLightbox();
+}
+
+var datos = {
+	cveQuejasSugerencias : null,
+	cveTipoPersona : null,
+	cveOrganigrama : null,
+	fecha : null,
+	nombreCompleto : null,
+	telefono : null,
+	email : null,
+	situacion : null,
+	cveTipoSituacion : null,
+	descripcion : null,
+	numControl : null,
+	numEmpleado : null
+};
+
+/*******************************************************************************
+ * Nombre : submitRegistro
+ * 
+ * Objetivo: //TODO <BR>
+ * 
+ * @param
+ * @param errors
+ * @param
+ * @returns {Boolean}
+ * @returns Boolean
+ ******************************************************************************/
+function submitRegistro(errors) {
+	if (errors) {
+		showLightbox();
+		dwr.util.getValues(datos);
+		DWRServicePL.saveQuejaSugerencia(datos, msjGuardarDatos);
+	} else {
+		showErrorMessage();
+	}
+	return false;
+}
+
+/*******************************************************************************
+ * Nombre : msjGuardarDatos
+ * 
+ * Objetivo: //TODO <BR>
+ * 
+ * @param
+ * @param opc
+ * @returns void
+ ******************************************************************************/
+function msjGuardarDatos(opc) {
+	hideLightbox();
+	if (opc == "1") {
+		mensajes(1, "Tus datos han sido guardados correctamente, "
+				+ "la respuesta a la situación presentada te será "
+				+ "enviada por correo electrónico en un plazo máximo"
+				+ " de 3 días hábiles", "");
+	} else if (opc == "0") {
+		mensajes(2, "Ha ocurrido un error",
+				"Puede ser que exista un registro duplicado");
+	} else {
+		mensajes(2, "ERROR", opc);
+	}
+	cancelar();
+}
+
+/*******************************************************************************
+ * Nombre : cancelar
+ * 
+ * Objetivo: //TODO <BR>
+ * 
+ * @param
+ * @returns void
+ ******************************************************************************/
+function cancelar() {
+	dwr.util.setValue("nombreCompleto", "");
+	dwr.util.setValue("cbocveTipoPersona", 0);
+	dwr.util.setValue("telefono", "");
+	dwr.util.setValue("email", "");
+	dwr.util.setValue("cbocveTipoSituacion", 0);
+	dwr.util.setValue("situacion", "");
+	dwr.util.setValue("cbocveOrganigrama", 0);
+	dwr.util.setValue("numControl", "");
+	dwr.util.setValue("numEmpleado", "");
+
+	form = document.getElementById("SQForm");
+	clearErrorMessages(form);
+}
+
+/*******************************************************************************
+ * Nombre : mostrarFila
+ * 
+ * Objetivo: //TODO <BR>
+ * 
+ * @param
+ * @returns void
+ ******************************************************************************/
+function mostrarFila() {
+	var cveTipoPersona = dwr.util.getValue("cbocveTipoPersona");
+	if (cveTipoPersona == 4) {
+		ocultarFilas(1, "trEmpleado");
+		ocultarFilas(2, "trAlumno");
+	} else if ((cveTipoPersona == 2) || (cveTipoPersona == 8)
+			|| (cveTipoPersona == 9) || (cveTipoPersona == 11)
+			|| (cveTipoPersona == 16)) {
+		ocultarFilas(1, "trAlumno");
+		ocultarFilas(2, "trEmpleado");
+	} else {
+		ocultarFilas(1, "trAlumno");
+		ocultarFilas(1, "trEmpleado");
+	}
+}
+
+/*******************************************************************************
+ * Nombre : ocultarFila
+ * 
+ * Objetivo: //TODO <BR>
+ * 
+ * @param
+ * @param accion
+ * @returns void
+ ******************************************************************************/
+function ocultarFilas(accion, diTR) {
+	// var fila = document.getElementById(diTR);
+	// for (i = 0; ele = fila.getElementsByTagName('td')[i]; i++) {
+	if (accion == "1") {
+		$("#" + diTR).hide();
+	} else if (accion == "2") {
+		$("#" + diTR).show();
+	}
+	// }
+}
+
+function showLightbox() {
+	$("#modalCarga").modal('show');
+}
+
+function hideLightbox() {
+	$("#modalCarga").modal('hide');
+}
+
+function aMayusculas(txt) {
+	var val = txt.value;
+	txt.value = val.toUpperCase();
+}
+
+/**
+ * @param txt
+ */
+function soloNumero(txt) {
+	var val = txt.value;
+	var exp = /^([0-9-])*$/;
+	if (val != "") {
+		if (!exp.test(val)) {
+			alert("Solo se permiten numeros");
+			txt.value = "";
+		}
+	}
+}
+
+function letras(e) {
+	tecla = (document.all) ? e.keyCode : e.which; // 2
+	if (tecla == 8) {
+		return true;
+	}
+	if (tecla == 46) {
+		return true;
+	}
+	if (tecla == 44) {
+		return true;
+	}
+	if (tecla == 40) {
+		return true;
+	}
+	if (tecla == 41) {
+		return true;
+	}
+	if (tecla == 180) {
+		return true;
+	}
+	if (tecla == 193) {
+		return true;
+	}
+	if (tecla == 201) {
+		return true;
+	}
+	if (tecla == 205) {
+		return true;
+	}
+	if (tecla == 211) {
+		return true;
+	}
+	if (tecla == 218) {
+		return true;
+	}
+	if (tecla == 225) {
+		return true;
+	}
+	if (tecla == 233) {
+		return true;
+	}
+	if (tecla == 237) {
+		return true;
+	}
+	if (tecla == 243) {
+		return true;
+	}
+	if (tecla == 250) {
+		return true;
+	}
+	patron = /[A-Za-zñÑ\s]/; // 4
+	te = String.fromCharCode(tecla); // 5
+
+	return patron.test(te); // 6
+}
+
+function mensajes(opc, msj, causa) {
+	if (opc == 1) {
+		dwr.util.setValue("modaltitulo", causa);
+		dwr.util.setValue("modalMensaje", msj);
+		$("#modalExito").modal('show');
+	} else if (opc == 2) {
+		dwr.util.setValue("modalErrortitulo", msj);
+		dwr.util.setValue("modaErrorlMensaje", causa);
+		$("#modalError").modal('show');
+	} else if (opc == 3) {
+		dwr.util.setValue("modalInfotitulo", "atención");
+		dwr.util.setValue("modalInfoMensaje", msj);
+		$("#modalInfo").modal('show');
+	}
+}
