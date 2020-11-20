@@ -1,0 +1,91 @@
+$(document).ready(
+
+function() {
+
+	$("[data-toggle='tooltip']").tooltip();
+
+	$('#formDenuncia').on('submit', function(e) {
+		e.preventDefault();
+		var datos = new FormData($('#formDenuncia')[0]);
+
+		form = document.getElementById("formDenuncia");
+		clearErrorMessages(form);
+
+		var errors = true;
+
+		if ($("#nombreServidor").val() == "") {
+			addError($("#nombreServidor")[0], "Este campo es requerido");
+			errors = false;
+		}
+		if ($("#fechaHechos").val() == "") {
+			addError($("#fechaHechos")[0], "Este campo es requerido");
+			errors = false;
+		}
+		if ($("#queja").val() == "") {
+			addError($("#queja")[0], "Este campo es requerido");
+			errors = false;
+		}
+		if ($("#como").val() == "") {
+			addError($("#como")[0], "Este campo es requerido");
+			errors = false;
+		}
+		if ($("#nombreContacto").val() == "") {
+			addError($("#nombreContacto")[0], "Este campo es requerido");
+			errors = false;
+		}
+		if ($("#email").val() == "") {
+			addError($("#email")[0], "Este campo es requerido");
+			errors = false;
+		}
+		if ($("#telefono").val() == "") {
+			addError($("#telefono")[0], "Este campo es requerido");
+			errors = false;
+		}
+		
+		if (errors) {
+
+			$.ajax({
+				url : this.action,
+				type : "post",
+				data : datos,
+				cache : false,
+				contentType : false,
+				processData : false,
+				dataType : 'json',
+				success : function(data) {
+					if (data['error']) {
+						$("#msjError").html(data['mensaje']);
+						$("#modalError").modal("show");
+					} else {
+						$("#msjExito").html(data['mensaje']);
+						$("#modalExito").modal("show");
+						cancelar();
+					}
+				},
+				error: function (XMLHttpRequest, textStatus, errorThrown) {
+					$("#msjError").html("<p  class='text-center'>Lo sentimos su denuncia no se pudo registrar<br/>Intentelo mas tarde</p>");
+					$("#modalError").modal("show");
+				}
+				
+			});
+		}
+		
+	});
+
+});
+
+function cancelar() {
+	form = document.getElementById("formDenuncia");
+	form.reset();
+	clearErrorMessages(form);
+	
+	$("#nombreServidor").val("");
+	$("#fechaHechos").val("");
+	$("#queja").val("");
+	$("#como").val("");
+	$("#cuando").val("");
+	$("#donde").val("");
+	$("#nombreContacto").val("");
+	$("#email").val("");
+	$("#telefono").val("");
+}
